@@ -1979,10 +1979,10 @@ class Dispatcher(webapp.RequestHandler):
     authorizer = Authorizer()
     if not COMPAT_WEBAPP2:
         # webapp picks the default as the last option
-        output_content_types = [JSON_CONTENT_TYPE, XML_CONTENT_TYPE]
+        output_content_types = [JSON_CONTENT_TYPE]
     else:
         # webapp2 picks the default as the first option
-        output_content_types = [XML_CONTENT_TYPE, JSON_CONTENT_TYPE]
+        output_content_types = [JSON_CONTENT_TYPE]
     include_docstring_in_schema = False
     enable_delete_query = False
     enable_delete_all = False
@@ -2359,8 +2359,7 @@ class Dispatcher(webapp.RequestHandler):
         """Returns True if the request explicitly requested structured output
         (xml or json) via the accept header."""
         out_mime_type = unicode(self.request.accept)
-        return ((out_mime_type == XML_CONTENT_TYPE) or
-                (out_mime_type == JSON_CONTENT_TYPE))
+        return (out_mime_type == JSON_CONTENT_TYPE)
 
     def delete(self, *_):
         """Does a REST delete.
@@ -2524,7 +2523,7 @@ class Dispatcher(webapp.RequestHandler):
         if(out_mime_type == JSON_CONTENT_TYPE):
             self.response.disp_out_type_ = JSON_CONTENT_TYPE
             return xml_to_json(doc)
-        self.response.disp_out_type_ = XML_CONTENT_TYPE
+        self.response.disp_out_type_ = JSON_CONTENT_TYPE
         return doc.toxml(XML_ENCODING)
 
     def input_to_xml(self):
